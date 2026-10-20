@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a09">
+  <meta name="description" content="A private investigation spanning more than two years. SHEGEH // 24">
+  <title>SHEGEH // 24</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <main class="opening-screen" id="openingScreen">
+    <div class="opening-top classified"><span>CLASSIFIED FILE</span><span>NO. 2910</span></div>
+    <div class="hero">
+      <p class="eyebrow">SUBJECT: SHEGEH <span class="tiny-dot"></span> AGE: 24</p>
+      <h1>SHEGEH <span>//</span> 24</h1>
+      <p class="description">A private investigation spanning<br>more than two years.</p>
+      <p class="question">“Will you grow with me?”</p>
+      <button class="button button-light" id="enterButton">ENTER THE FILE <span>→</span></button>
+    </div>
+    <div class="opening-footer"><span>EST. 02.03.2024</span><span>STATUS: ACTIVE</span></div>
+  </main>
+
+  <main class="main-site hidden" id="mainSite">
+    <header class="site-header" id="siteHeader">
+      <button class="logo wordmark" data-view="dashboard" aria-label="Go to dashboard">SHEGEH <span>//</span> 24</button>
+      <div class="status">CASE STATUS: <span>ACTIVE</span></div>
+      <button class="mobile-menu" id="mobileMenu" aria-label="Toggle navigation">☰</button>
+    </header>
+
+    <section class="dashboard view active" id="dashboard">
+      <div class="dashboard-hero">
+        <p class="dashboard-label"><span class="tiny-dot"></span> THE INVESTIGATION CONTINUES.</p>
+        <h2>Welcome to the<br><em>Shegeh Files.</em></h2>
+        <p class="intro">Two years of memories, evidence, questionable behaviour and one very important question.</p>
+        <div class="hero-stamp"><span>PERSONAL ARCHIVE</span><strong>02—24</strong><span>ACCESS: SUBJECT ONLY</span></div>
+      </div>
+      <div class="file-grid">
+        <button class="file-card" data-view="archive"><span class="file-number">01</span><div><h3>THE SHEGEH FILES</h3><p>A record of how we became us.</p></div><span class="arrow">↗</span></button>
+        <button class="file-card" data-view="mission"><span class="file-number">02</span><div><h3>MISSION 24</h3><p>Think you know everything? Prove it.</p></div><span class="arrow">↗</span></button>
+        <button class="file-card" data-view="kitchen"><span class="file-number">03</span><div><h3>SHEGEH'S KITCHEN</h3><p>Private dining. Questionable chef.</p></div><span class="arrow">↗</span></button>
+        <button class="file-card" data-view="formula"><span class="file-number">04</span><div><h3>THE SHEGEH FORMULA</h3><p>A completely legitimate investigation.</p></div><span class="arrow">↗</span></button>
+        <button class="file-card" data-view="classified"><span class="file-number">05</span><div><h3>CLASSIFIED</h3><p>Some information is not for public release.</p></div><span class="arrow">↗</span></button>
+        <button class="file-card locked" id="finalFileCard" data-view="final" aria-disabled="true"><span class="file-number">06</span><div><h3>FINAL FILE</h3><p id="finalCardDescription">Complete Mission 24 to unlock.</p></div><span class="lock" id="finalLock">🔒</span></button>
+      </div>
+      <div class="dashboard-note"><span>FIELD NOTE 001</span><p>Some things are worth documenting. This is one of them.</p></div>
+    </section>
+
+    <section class="view files-section" id="archive" aria-hidden="true">
+      <div class="view-topbar"><button class="back-button" data-view="dashboard">← BACK TO CASE FILE</button><span>CASE NO. 2910</span></div>
+      <div class="section-heading">
+        <p class="dashboard-label">FILE ARCHIVE / EST. 02.03.2024</p><h2>The Shegeh<br><em>Files.</em></h2>
+        <p>A documented record of how a question, a yes, and everything that followed became us.</p>
+      </div>
+      <div class="archive-list">
+        <button class="archive-item" data-file="001"><span>001</span><div><h3>THE QUESTION</h3><p>The question that started everything.</p></div><span>↗</span></button>
+        <button class="archive-item" data-file="002"><span>002</span><div><h3>THE JOURNEY</h3><p>Omu-Aran → Ilorin. Two people, one car, one favourite memory.</p></div><span>↗</span></button>
+        <button class="archive-item" data-file="003"><span>003</span><div><h3>EVIDENCE OF LOVE</h3><p>The little things that made the case difficult to ignore.</p></div><span>↗</span></button>
+        <button class="archive-item" data-file="004"><span>004</span><div><h3>DISTANCE</h3><p>Current complication: long distance. Status: ongoing.</p></div><span>↗</span></button>
+        <button class="archive-item" data-file="005"><span>005</span><div><h3>UNEXPECTED FINDING</h3><p>Evidence of kindness beyond his inner circle.</p></div><span>↗</span></button>
+        <button class="archive-item" data-file="006"><span>006</span><div><h3>CORE ATTRIBUTES</h3><p>Smart. Kind. Loving. Hardworking. Faithful. Loves God.</p></div><span>↗</span></button>
+        <button class="archive-item" data-file="007"><span>007</span><div><h3>THE WILLINGNESS TO TRY</h3><p>Making things work, learning, improving, trying again.</p></div><span>↗</span></button>
+        <button class="archive-item" data-file="008"><span>008</span><div><h3>KNOWN PECULIARITIES</h3><p>A suspicious sniffing phenomenon.</p></div><span>↗</span></button>
+      </div>
+    </section>
+
+    <section class="view individual-file" id="individualFile" aria-hidden="true">
+      <div class="view-topbar"><button class="back-button" data-view="archive">← BACK TO FILE ARCHIVE</button><span id="fileCode">FILE 001 / 2910</span></div>
+      <div id="fileContent"></div>
+      <div class="file-navigation"><button data-view="archive">← FILE ARCHIVE</button><button class="next-file" id="nextFileButton">NEXT FILE →</button></div>
+    </section>
+
+    <section class="view mission-section" id="mission" aria-hidden="true">
+      <div class="view-topbar"><button class="back-button" data-view="dashboard">← BACK TO CASE FILE</button><span>OPERATION: 24</span></div>
+      <div class="section-heading"><p class="dashboard-label">SUBJECT KNOWLEDGE ASSESSMENT</p><h2>Mission<br><em>24.</em></h2><p>Twenty-four questions. A lifetime's worth of evidence. Let's see how closely you've been paying attention.</p></div>
+      <div class="mission-panel" id="missionPanel">
+        <div class="quiz-topline"><span id="questionCounter">QUESTION 01 / 24</span><span id="quizScore">SCORE: 0</span></div>
+        <div class="progress-track"><div id="quizProgress"></div></div>
+        <p class="quiz-category" id="quizCategory">ORIGIN STORY</p>
+        <h3 id="quizQuestion">Ready?</h3>
+        <div class="answer-list" id="answerList"></div>
+        <p class="quiz-feedback" id="quizFeedback" aria-live="polite"></p>
+        <div class="quiz-actions"><button class="button button-outline" id="nextQuestionButton" disabled>CONFIRM ANSWER →</button></div>
+      </div>
+      <div class="mission-result hidden" id="missionResult"></div>
+      <p class="small-note">A little reminder: this is a birthday game, not a legally binding assessment of your boyfriend skills.</p>
+    </section>
+
+    <section class="view kitchen-section" id="kitchen" aria-hidden="true">
+      <div class="view-topbar"><button class="back-button" data-view="dashboard">← BACK TO CASE FILE</button><span>ESTABLISHMENT 003</span></div>
+      <div class="kitchen-sign"><span>EST. SOMEWHERE BETWEEN HUNGER & AMBITION</span><h2>SHEGEH'S</h2><p>PRIVATE KITCHEN & CULINARY LABORATORY</p><div class="sign-rule"></div><span class="open-label"><i></i> OPEN WHEN THE CHEF FEELS LIKE IT</span></div>
+      <div class="section-heading compact"><p class="dashboard-label">THE MENU / SUBJECT TO AVAILABILITY</p><h2>Today's<br><em>specials.</em></h2><p>A refined dining experience. Probably. No promises have been made by management.</p></div>
+      <div class="menu-list">
+        <div class="menu-item"><span class="menu-no">01</span><div><h3>INDOMIE DELUXE</h3><p>Classic noodles, prepared with confidence and the unmistakable energy of a man who knows his way around a kitchen.</p><small>CHEF'S SIGNATURE</small></div><span class="menu-price">₦₦</span></div>
+        <div class="menu-item"><span class="menu-no">02</span><div><h3>SIGNATURE SHEGEH TEA</h3><p>A mysterious beverage. Exact ingredients classified. Preparation time depends on the chef's schedule.</p><small>HOUSE SPECIAL</small></div><span class="menu-price">₦</span></div>
+        <div class="menu-item"><span class="menu-no">03</span><div><h3>WHATEVER IS IN THE KITCHEN</h3><p>A surprise plate built from available ingredients, strategic thinking and pure determination.</p><small>MARKET-DEPENDENT</small></div><span class="menu-price">TBD</span></div>
+      </div>
+      <div class="chef-card"><div class="chef-monogram">S.</div><div><p class="eyebrow">MEET THE CHEF</p><h3>CHEF SHEGEH</h3><p class="muted">Specialities include cooking, tea, feeding himself, and looking good while doing it.</p><blockquote>“The chef is handsome, so I may not be an unbiased reviewer.”<br><span>— Awesome, Management & Chief Taste Tester</span></blockquote></div></div>
+      <button class="button button-outline full-button" id="chefUnavailable" type="button">REQUEST A TABLE →</button>
+      <div id="tableRequestPanel" class="table-request-panel hidden">
+        <p class="dashboard-label">TABLE REQUEST / NOT A REAL BOOKING</p>
+        <h3>Reserve a moment with the chef.</h3>
+        <p class="muted">Fill this in to log your very official request. No actual restaurant booking will be made.</p>
+        <form id="tableRequestForm" class="table-request-form">
+          <label for="guestName">GUEST NAME</label><input id="guestName" name="guestName" placeholder="Your name" required>
+          <div class="request-fields"><div><label for="guestDate">PREFERRED DATE</label><input id="guestDate" name="guestDate" type="date" required></div><div><label for="guestTime">PREFERRED TIME</label><select id="guestTime" name="guestTime" required><option value="">Choose a time</option><option>12:00 PM</option><option>2:00 PM</option><option>5:00 PM</option><option>7:00 PM</option><option>Whenever the chef is free</option></select></div></div>
+          <button class="button button-light" type="submit">SUBMIT TABLE REQUEST →</button>
+        </form>
+      </div>
+      <p class="center muted" id="kitchenMessage" aria-live="polite"></p>
+    </section>
+
+    <section class="view formula-section" id="formula" aria-hidden="true">
+      <div class="view-topbar"><button class="back-button" data-view="dashboard">← BACK TO CASE FILE</button><span>RESEARCH DIVISION 004</span></div>
+      <div class="section-heading"><p class="dashboard-label">UNPEER-REVIEWED RESEARCH</p><h2>The Shegeh<br><em>Formula.</em></h2><p>Objective: determine the molecular and emotional basis of Awesome's continued attachment to Subject S.</p></div>
+      <div class="formula-board">
+        <div class="formula-meta"><span>SUBJECT: SHEGEH</span><span>AGE: 24</span><span>STUDY STARTED: 02.03.2024</span></div>
+        <div class="equation"><span class="formula-letter">S</span><span>=</span><span class="formula-term" data-term="C">C</span><span>+</span><span class="formula-term" data-term="L">L</span><span>+</span><span class="formula-term" data-term="K">K</span><span>+</span><span class="formula-term" data-term="H">H</span><span>+</span><span class="formula-term" data-term="P">P</span></div>
+        <p class="formula-hint">SELECT EACH VARIABLE TO REVIEW THE EVIDENCE</p>
+        <div class="variable-details" id="variableDetails"><span class="variable-code">S / RESULT</span><h3>IRREPLACEABLE</h3><p>The formula is still under investigation. Current findings suggest there is no substitute.</p></div>
+        <div class="formula-result"><span>FINAL CALCULATION</span><strong>IRREPLACEABLE.</strong><small>Confidence level: suspiciously high.</small></div>
+      </div>
+      <div class="research-note"><span>RESEARCHER'S NOTE</span><p>For the avoidance of doubt, this study is biased. The researcher is very much in love with the subject.</p><span class="signature">— A.</span></div>
+    </section>
+
+    <section class="view classified-section" id="classified" aria-hidden="true">
+      <div class="view-topbar"><button class="back-button" data-view="dashboard">← BACK TO CASE FILE</button><span>RESTRICTED ACCESS</span></div>
+      <div class="classified-wrap">
+        <div class="redacted-stamp">RESTRICTED / PRIVATE</div>
+        <p class="dashboard-label">FILE 005 / ACCESS CONTROL</p><h2>Some things<br>stay <em>between us.</em></h2>
+        <p class="classified-intro">A certain phrase has been sealed inside this file. Only the subject with the correct clearance may proceed.</p>
+        <div class="password-panel"><label for="classifiedPassword">ENTER THE PRIVATE PHRASE</label><p class="muted">Hint: a sentence that would make absolutely no sense in a public report.</p>
+          <form id="classifiedForm"><input id="classifiedPassword" type="password" autocomplete="off" placeholder="Clearance phrase..." required><button class="button button-light" type="submit">VERIFY ACCESS →</button></form>
+          <p id="classifiedFeedback" class="quiz-feedback" aria-live="polite"></p>
+        </div>
+        <div id="classifiedReveal" class="classified-reveal hidden"><span>ACCESS GRANTED</span><p>“I’ll penetrate him.”</p><small>End of report. Please return this file to its secure location.</small></div>
+      </div>
+    </section>
+
+    <section class="view final-section" id="final" aria-hidden="true">
+      <div class="view-topbar"><button class="back-button" data-view="dashboard">← BACK TO CASE FILE</button><span>FINAL FILE / 2910</span></div>
+      <div class="final-document">
+        <p class="dashboard-label"><span class="tiny-dot"></span> MISSION 24 COMPLETE / ACCESS GRANTED</p>
+        <p class="final-index">FINAL FINDING — NO. 024</p>
+        <h2>The investigation<br>remains <em>ongoing.</em></h2>
+        <div class="final-rule"></div>
+        <p>After two years, countless conversations, distance, random memories, gifts, laughter, difficult moments, journeys, and everything in between…</p>
+        <p>The investigation remains inconclusive.</p>
+        <p>I still don't fully understand how I got so lucky. But I do know one thing: I want this to still be our story five years from now. And five years after that. And after that.</p>
+        <p>I love that you're smart, kind, loving, hardworking, faithful, and that you love God. I love the way you make an effort, the way you keep trying, and the way you make me feel loved through things both big and small.</p>
+        <p>Even with the distance, I still choose the possibility of all the days we haven't lived yet. I hope we keep growing — individually, together, and in the ways that matter most.</p>
+        <p class="final-emphasis">Happy 24th birthday, Shegeh.</p>
+        <p class="final-love">I love you. Always growing. Always us.</p>
+        <div class="signature-block"><span>WITH LOVE,</span><strong>AWESOME.</strong><small>CASE STATUS: STILL CHOOSING YOU</small></div>
+        <button class="button button-outline" id="replayButton">REVISIT THE FILES ↺</button>
+      </div>
+    </section>
+
+    <footer class="site-footer" id="siteFooter"><span>EST. 02.03.2024</span><span>MADE WITH LOVE BY AWESOME</span><span>SHEGEH // 24</span></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
