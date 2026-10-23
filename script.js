@@ -151,13 +151,13 @@
         <div class="story-text">${paragraphs.map((p,i) => `<p class="${p.startsWith("“") ? "big-line" : (p.length < 65 && (p.endsWith(".") || p.endsWith("…")) ? "" : "")}">${escapeHTML(p)}</p>`).join("")}</div>
       </article>`).join("");
     const attributes = index === 5 ? `<div class="attribute-chips">${[
-      ["SMART","I admire your mind and the way you think. I love that you are intelligent, curious, and able to look at things carefully. Your mind is one of the things I admire about you, and it still draws me in."],
-      ["KIND","One of the things that surprised me about you is how kind you can be even to people you are not close to. You do not have to gain something from everyone before showing consideration. That quiet kindness says a lot about your heart."],
-      ["LOVING","I feel loved through your effort to make me happy. I notice the little things, the thoughtful gestures, and the way you try to make me feel remembered even when we are apart. It is not only what you give; it is the thought and intention behind it."],
-      ["HARDWORKING","I admire the effort you put into your life and responsibilities. I see someone who is willing to work, keep moving, and build something for himself. I hope you remember to give yourself credit for the work you do, even when nobody is applauding."],
-      ["FAITHFUL","Faithfulness is a quality I value deeply in you. It speaks to commitment, trust, and the decision to keep showing up honestly. I do not take that lightly, and I hope we continue to treat what we have with care."],
-      ["LOVES GOD","I love that your relationship with God is part of who you are. It matters to me that faith has a place in your life, and I pray that you continue to grow in your walk with Him, in wisdom, love, and lasting character."]
-    ].map(([name,desc])=>`<button class="attribute-chip" type="button" data-attribute="${name}" data-description="${escapeHTML(desc)}">${name}</button>`).join("")}</div><p class="attribute-message" id="attributeMessage" aria-live="polite">Select a quality to read the full note.</p>` : "";
+      ["SMART","I admire your mind and the way you think. I love that you are intelligent, curious, and able to look at things from your own perspective. It is one of the qualities that made me admire you, and it is still something I appreciate about you."],
+      ["KIND","One thing that surprised me about you is how kind you can be even to people you are not close to. Your consideration is not limited to people who can do something for you or people already in your circle. I notice that, and it makes me respect you even more."],
+      ["LOVING","You make an effort to make me happy, and I do not take that for granted. I see it in the little things, in the thought you put into making me feel remembered, and in the ways you try to show up for me even when we are apart. Those things make me feel loved."],
+      ["HARDWORKING","I admire the effort you put into your responsibilities and the life you are building. I see someone who keeps moving, takes his work seriously, and is willing to put in effort for the things that matter. I hope you remember to give yourself credit for how far you have come."],
+      ["FAITHFUL","Your faithfulness matters to me. I value the commitment, trust, and steadiness that help make a relationship meaningful. It is not only about saying the right things; it is about continuing to choose what matters and treating that commitment with care."],
+      ["LOVES GOD","I love that your relationship with God is part of who you are. Your faith matters, and I admire that this is an important part of your life. I hope you keep growing in your walk with God and that it continues to shape you into the man you want to become."]
+    ].map(([name,desc])=>`<button class="attribute-chip" type="button" data-attribute="${name}" data-description="${desc.replace(/&/g,"&amp;").replace(/"/g,"&quot;")}">${name}</button>`).join("")}</div><div class="attribute-message" id="attributeMessage" aria-live="polite"><p>Select a quality above. Its full note will appear here.</p></div>` : "";
     $("#fileContent").innerHTML = `
       <div class="case-heading"><p class="dashboard-label">${file.eyebrow}</p><h2>${escapeHTML(file.title.split(" ")[0])}<br><em>${escapeHTML(file.title.split(" ").slice(1).join(" "))}</em></h2></div>
       <div class="case-meta"><div><span>DATE</span><strong>${file.date}</strong></div><div><span>LOCATION</span><strong>${file.location}</strong></div><div><span>STATUS</span><strong>${file.status}</strong></div></div>
@@ -175,14 +175,87 @@
     return String(value).replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
   }
 
+  // Subtle UI click sound generated in the browser (no extra sound file needed).
+  let soundContext;
+  let lastClickSoundAt = 0;
+  function playClickSound() {
+    try {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return;
+      soundContext = soundContext || new AudioContextClass();
+      if (soundContext.state === "suspended") soundContext.resume();
+      const now = soundContext.currentTime;
+      const oscillator = soundContext.createOscillator();
+      const gain = soundContext.createGain();
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(1150, now);
+      oscillator.frequency.exponentialRampToValueAtTime(720, now + 0.035);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.055, now + 0.004);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.055);
+      oscillator.connect(gain);
+      gain.connect(soundContext.destination);
+      oscillator.start(now);
+      oscillator.stop(now + 0.06);
+    } catch (error) {
+      // The website remains usable if the browser does not support sound effects.
+    }
+  }
+
+  const backgroundMusic = $("#backgroundMusic");
+  const musicToggle = $("#musicToggle");
+  const musicToggleLabel = $("#musicToggleLabel");
+  let musicOn = false;
+  backgroundMusic.volume = 0.12; // Soft background volume.
+  function updateMusicControl() {
+    musicToggle.setAttribute("aria-pressed", String(musicOn));
+    musicToggle.classList.toggle("is-playing", musicOn);
+    musicToggleLabel.textContent = musicOn ? "MUSIC ON" : "MUSIC OFF";
+  }
+  async function startBackgroundMusic() {
+    try {
+      backgroundMusic.volume = 0.12;
+      await backgroundMusic.play();
+      musicOn = true;
+      updateMusicControl();
+    } catch (error) {
+      musicOn = false;
+      updateMusicControl();
+      showToast("Add your licensed 'belong-together.mp3' file to the website folder to enable the soundtrack.");
+    }
+  }
+  musicToggle.addEventListener("click", async () => {
+    if (musicOn) {
+      backgroundMusic.pause();
+      musicOn = false;
+      updateMusicControl();
+      return;
+    }
+    await startBackgroundMusic();
+  });
+  backgroundMusic.addEventListener("error", () => {
+    musicOn = false;
+    updateMusicControl();
+  });
+  // Any button or button-like control gets a short, quiet click sound.
+  document.addEventListener("click", event => {
+    const control = event.target.closest("button, [role=button]");
+    if (!control || control.disabled) return;
+    const now = Date.now();
+    if (now - lastClickSoundAt < 45) return;
+    lastClickSoundAt = now;
+    playClickSound();
+  }, true);
+
   $("#enterButton").addEventListener("click", () => {
     openingScreen.classList.add("hidden");
     mainSite.classList.remove("hidden");
     showView("dashboard");
+    // Browsers allow music to begin after the visitor's first deliberate click.
+    startBackgroundMusic();
   });
   $$("[data-view]").forEach(button => button.addEventListener("click", () => showView(button.dataset.view)));
   $$("[data-file]").forEach(button => button.addEventListener("click", () => renderFile(fileIds.indexOf(button.dataset.file))));
-  $("#shegehFilesCard").addEventListener("click", () => showView("archive"));
   $("#mobileMenu").addEventListener("click", () => {
     showView(currentView === "dashboard" ? "archive" : "dashboard");
   });
@@ -215,8 +288,7 @@
   }
 
   $("#nextQuestionButton").addEventListener("click", () => {
-    if (selectedAnswer === null) return;
-    if (answerConfirmed) { advanceQuestion(); return; }
+    if (answerConfirmed || selectedAnswer === null) return;
     const q = quizQuestions[quizIndex];
     answerConfirmed = true;
     const correct = selectedAnswer === q.correct;
@@ -230,21 +302,18 @@
     $("#quizFeedback").textContent = (correct ? "CORRECT. " : "NOT QUITE. ") + q.why;
     $("#quizFeedback").className = `quiz-feedback ${correct ? "good" : "bad"}`;
     $("#quizProgress").style.width = `${((quizIndex+1)/quizQuestions.length)*100}%`;
-    const isLast = quizIndex === quizQuestions.length - 1;
-    $("#nextQuestionButton").textContent = isLast ? "PREPARING YOUR RESULTS…" : "MOVING TO NEXT QUESTION…";
     $("#nextQuestionButton").disabled = true;
+    $("#nextQuestionButton").textContent = quizIndex === quizQuestions.length-1 ? "MISSION COMPLETE — PREPARING RESULTS…" : "ANSWER RECORDED…";
+    // Briefly show the explanation, then advance automatically so the player never gets stuck on a second click.
     window.setTimeout(() => {
-      if (currentView !== "mission" || !answerConfirmed) return;
-      if (isLast) finishMission(); else advanceQuestion();
-    }, 1700);
+      if (quizIndex < quizQuestions.length-1) {
+        quizIndex++;
+        renderQuestion();
+      } else {
+        finishMission();
+      }
+    }, 1100);
   });
-
-  function advanceQuestion() {
-    if (quizIndex < quizQuestions.length - 1) {
-      quizIndex++;
-      renderQuestion();
-    } else finishMission();
-  }
 
   function finishMission() {
     const percent = Math.round((quizScore/quizQuestions.length)*100);
@@ -271,61 +340,44 @@
     renderQuestion();
   }
 
-  const formulaData = {
-    C:["C / CARING","CONSIDERATION","The effort you make to make me happy, including the thoughtful little things I never take for granted. You make room for my happiness in the middle of your own day, and I notice that."],
-    L:["L / LOVE","LOVE","The affection, thoughtfulness, gifts, conversations, and memories that keep this story personal. Love is also the repeated choice to make someone feel remembered."],
-    K:["K / KINDNESS","KINDNESS","The kindness you show even to people who are not part of your closest circle. It is one of the qualities that made me admire you more, because it says something about who you are beyond our relationship."],
-    H:["H / HARDWORKING","HARDWORKING","The effort you put into your responsibilities and the life you are building. I admire your willingness to work, learn, and keep moving towards the things that matter to you."],
-    P:["P / PECULIARITIES","A VERY SPECIFIC VARIABLE","The suspicious sniffing while eating food that is not even peppery, the chef energy, and all the little habits that make you unmistakably you. The evidence is odd, but the subject is loved."]
-  };
-  document.addEventListener("click", event => {
-    const term = event.target.closest(".formula-term");
-    if (term) {
-      $$(".formula-term").forEach(item => item.classList.toggle("selected", item === term));
-      const [code,title,description] = formulaData[term.dataset.term] || ["VARIABLE","UNDER REVIEW","Evidence is still being collected."];
-      $("#variableDetails").innerHTML = `<span class="variable-code">${escapeHTML(code)}</span><h3>${escapeHTML(title)}</h3><p>${escapeHTML(description)}</p>`;
-      return;
-    }
-    const chip = event.target.closest("[data-attribute]");
-    if (chip) {
-      const message = $("#attributeMessage");
-      if (message) message.textContent = `${chip.dataset.attribute}: ${chip.dataset.description}`;
-    }
-  });
+  $$(".formula-term").forEach(term => term.addEventListener("click", () => {
+    $$(".formula-term").forEach(item => item.classList.toggle("selected", item === term));
+    const data = {
+      C:["C / CARING","CONSIDERATION","You pay attention to the things that make me happy and make an effort to show that you care. It is in the little gestures, the thought you put into me, and the way you try to make me feel remembered. I notice those things, even when they might seem small to you."],
+      L:["L / LOVE","LOVE","Your love has shown up in so many little ways, especially in the effort you make to make me happy. The gifts you sent for my birthday and Valentine’s Day, even from wherever you were, made me feel remembered and considered. It is the thought behind those gestures that stays with me."],
+      K:["K / KINDNESS","KINDNESS","One of the things that surprised me about you is that your kindness extends to people you are not even close to. You do not have to reserve consideration only for people you love or people who can repay you. That quality says a lot about your character, and I genuinely admire it."],
+      H:["H / HARDWORKING","HARDWORKING","I admire how you keep showing up for your responsibilities and putting effort into the life you are building. I see your determination and the work you put in, even when things are not effortless. I hope you are proud of yourself, too, because your effort deserves to be recognised."],
+      P:["P / PECULIARITIES","A VERY SPECIFIC VARIABLE","The suspicious sniffing while eating food that is not even peppery, the chef energy, and all the little habits that make you unmistakably you. These details may not be scientifically relevant, but they are part of the person I know and love — and they make this investigation much more entertaining."]
+    };
+    const [code,title,description] = data[term.dataset.term];
+    $("#variableDetails").innerHTML = `<span class="variable-code">${code}</span><h3>${title}</h3><p>${description}</p>`;
+  }));
 
   $("#chefUnavailable").addEventListener("click", () => {
-    const panel = $("#tableRequestPanel");
-    if (!panel) return;
-    panel.classList.toggle("hidden");
-    $("#chefUnavailable").textContent = panel.classList.contains("hidden") ? "REQUEST A TABLE →" : "CLOSE REQUEST FORM ↑";
-    if (!panel.classList.contains("hidden")) panel.scrollIntoView({behavior:"smooth",block:"nearest"});
-  });
-  $("#tableRequestForm").addEventListener("submit", event => {
-    event.preventDefault();
-    event.stopPropagation();
-    const name = $("#guestName").value.trim() || "Esteemed Guest";
-    const date = $("#guestDate").value;
-    const time = $("#guestTime").value;
-    $("#kitchenMessage").textContent = `REQUEST LOGGED FOR ${name.toUpperCase()}: ${date} AT ${time}. This is a pretend reservation; the chef may still be watching anime.`;
-    $("#tableRequestPanel").classList.add("hidden");
-    $("#chefUnavailable").textContent = "REQUEST A TABLE →";
-    $("#tableRequestForm").reset();
+    $("#kitchenMessage").textContent = "REQUEST RECEIVED. Chef is currently unavailable. He is probably watching an anime.";
   });
 
   $("#classifiedForm").addEventListener("submit", event => {
     event.preventDefault();
-    event.stopPropagation();
-    const value = $("#classifiedPassword").value.trim().toLowerCase()
-      .replace(/[’‘`]/g, "'").replace(/[.!?]+$/g, "").replace(/\s+/g, " ");
-    const accepted = new Set(["i'll penetrate him", "ill penetrate him", "i will penetrate him"]);
-    if (accepted.has(value)) {
+    const value = $("#classifiedPassword").value.trim().toLowerCase().replace(/[’‘]/g,"'").replace(/[.!?]+$/,"").replace(/\s+/g," ");
+    if (value === "i'll penetrate him" || value === "i’ll penetrate him" || value === "ill penetrate him" || value === "i will penetrate him") {
       $("#classifiedReveal").classList.remove("hidden");
-      $("#classifiedFeedback").textContent = "CLEARANCE VERIFIED. You found the private file.";
+      $("#classifiedFeedback").textContent = "Clearance verified. This file is now open on this device.";
       $("#classifiedFeedback").className = "quiz-feedback good";
       $("#classifiedPassword").value = "";
     } else {
-      $("#classifiedFeedback").textContent = "ACCESS DENIED. Check the wording and try the private phrase again.";
+      $("#classifiedFeedback").textContent = "ACCESS DENIED. Try the private phrase only the two of you understand.";
       $("#classifiedFeedback").className = "quiz-feedback bad";
+    }
+  });
+
+  document.addEventListener("click", event => {
+    const chip = event.target.closest("[data-attribute]");
+    if (!chip) return;
+    const message = $("#attributeMessage");
+    if (message) {
+      $$(".attribute-chip").forEach(item => item.classList.toggle("selected", item === chip));
+      message.innerHTML = `<h3>${escapeHTML(chip.dataset.attribute)}</h3><p>${escapeHTML(chip.dataset.description)}</p>`;
     }
   });
 

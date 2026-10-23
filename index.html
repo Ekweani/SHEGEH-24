@@ -97,18 +97,7 @@
         <div class="menu-item"><span class="menu-no">03</span><div><h3>WHATEVER IS IN THE KITCHEN</h3><p>A surprise plate built from available ingredients, strategic thinking and pure determination.</p><small>MARKET-DEPENDENT</small></div><span class="menu-price">TBD</span></div>
       </div>
       <div class="chef-card"><div class="chef-monogram">S.</div><div><p class="eyebrow">MEET THE CHEF</p><h3>CHEF SHEGEH</h3><p class="muted">Specialities include cooking, tea, feeding himself, and looking good while doing it.</p><blockquote>“The chef is handsome, so I may not be an unbiased reviewer.”<br><span>— Awesome, Management & Chief Taste Tester</span></blockquote></div></div>
-      <button class="button button-outline full-button" id="chefUnavailable" type="button">REQUEST A TABLE →</button>
-      <div id="tableRequestPanel" class="table-request-panel hidden">
-        <p class="dashboard-label">TABLE REQUEST / NOT A REAL BOOKING</p>
-        <h3>Reserve a moment with the chef.</h3>
-        <p class="muted">Fill this in to log your very official request. No actual restaurant booking will be made.</p>
-        <form id="tableRequestForm" class="table-request-form">
-          <label for="guestName">GUEST NAME</label><input id="guestName" name="guestName" placeholder="Your name" required>
-          <div class="request-fields"><div><label for="guestDate">PREFERRED DATE</label><input id="guestDate" name="guestDate" type="date" required></div><div><label for="guestTime">PREFERRED TIME</label><select id="guestTime" name="guestTime" required><option value="">Choose a time</option><option>12:00 PM</option><option>2:00 PM</option><option>5:00 PM</option><option>7:00 PM</option><option>Whenever the chef is free</option></select></div></div>
-          <button class="button button-light" type="submit">SUBMIT TABLE REQUEST →</button>
-        </form>
-      </div>
-      <p class="center muted" id="kitchenMessage" aria-live="polite"></p>
+      <button class="button button-outline full-button" id="chefUnavailable">REQUEST A TABLE →</button><p class="center muted" id="kitchenMessage" aria-live="polite"></p>
     </section>
 
     <section class="view formula-section" id="formula" aria-hidden="true">
@@ -159,6 +148,10 @@
 
     <footer class="site-footer" id="siteFooter"><span>EST. 02.03.2024</span><span>MADE WITH LOVE BY AWESOME</span><span>SHEGEH // 24</span></footer>
   </main>
+  <div class="audio-controls" aria-label="Sound controls">
+    <button class="audio-toggle" id="musicToggle" type="button" aria-pressed="false" title="Toggle background music">♫ <span id="musicToggleLabel">MUSIC OFF</span></button>
+  </div>
+  <audio id="backgroundMusic" src="belong-together.mp3" loop preload="none"></audio>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="script.js"></script>
 </body>
