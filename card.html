@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A little something for Shegeh</title>
+<style>
+:root{--bg:#101010;--panel:#191817;--cream:#f2eee5;--muted:#b9b2a6;--gold:#c5a66a;--line:rgba(197,166,106,.35)}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#30271d 0%,#151412 45%,#0b0b0b 100%);color:var(--cream);font-family:Georgia,'Times New Roman',serif;display:grid;place-items:center;padding:24px;overflow-x:hidden}
+.grain{position:fixed;inset:0;pointer-events:none;opacity:.08;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E")}
+.wrap{width:min(100%,520px);position:relative}.topline{display:flex;justify-content:space-between;gap:12px;color:var(--gold);font:10px/1.5 monospace;letter-spacing:.18em;margin:0 0 18px;text-transform:uppercase}.card{border:1px solid var(--line);background:linear-gradient(145deg,rgba(35,32,28,.97),rgba(17,17,16,.98));padding:clamp(22px,6vw,38px);box-shadow:0 28px 90px #0009;position:relative;overflow:hidden}.card:before{content:'';position:absolute;inset:8px;border:1px solid rgba(255,255,255,.055);pointer-events:none}.eyebrow{font:10px monospace;letter-spacing:.25em;color:var(--gold);text-transform:uppercase}.headline{font-size:clamp(34px,8vw,54px);line-height:1.02;font-weight:normal;margin:18px 0 14px;letter-spacing:-.04em}.headline em{color:var(--gold);font-weight:normal}.intro{color:#d2cbc0;line-height:1.75;font-size:15px;max-width:380px}.photo-frame{margin:24px 0 20px;position:relative;border:1px solid var(--line);padding:7px;background:#0b0b0b;transform:rotate(-.5deg)}.photo-frame img{display:block;width:100%;max-height:390px;object-fit:cover;object-position:center 35%;filter:saturate(.78)}.photo-label{display:flex;justify-content:space-between;gap:10px;margin-top:8px;color:#aaa195;font:9px monospace;letter-spacing:.12em;text-transform:uppercase}.reveal{display:none;border-top:1px solid var(--line);margin-top:22px;padding-top:20px;animation:rise .6s ease both}.reveal.show{display:block}.note{font-size:clamp(19px,4.8vw,24px);line-height:1.55;margin:0 0 12px}.small{color:var(--muted);font-size:13px;line-height:1.7}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.btn{appearance:none;border:1px solid var(--gold);padding:13px 16px;background:var(--gold);color:#16130e;font:11px monospace;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}.btn:hover{transform:translateY(-2px);background:#d8bc83}.btn.secondary{background:transparent;color:var(--cream);border-color:#615644}.btn.secondary:hover{background:#29251f}.footer{display:flex;justify-content:space-between;gap:12px;margin-top:17px;color:#8c8579;font:9px monospace;letter-spacing:.12em;text-transform:uppercase}.hint{text-align:center;color:#8e867a;font:10px monospace;letter-spacing:.14em;margin-top:18px;animation:pulse 2.4s infinite}@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes pulse{50%{opacity:.5}}@media(max-width:420px){body{padding:14px}.topline{font-size:9px}.footer{font-size:8px}}
+</style>
+</head>
+<body><div class="grain"></div><main class="wrap">
+<div class="topline"><span>PRIVATE DELIVERY · 01/01</span><span>FOR SUBJECT S</span></div>
+<section class="card">
+<div class="eyebrow">A birthday transmission</div>
+<h1 class="headline">For you,<br><em>Mon Coeur.</em></h1>
+<p class="intro">Some gifts come in boxes. Some come with a little story. And some are invitations to step into a world made just for you.</p>
+<div class="photo-frame"><img src="couple.jpg" alt="A photograph of us together"><div class="photo-label"><span>ARCHIVE IMAGE · US</span><span>EST. 02.03.2024</span></div></div>
+<button class="btn" id="openBtn" type="button">Open your message ↗</button>
+<div class="reveal" id="reveal">
+<p class="note">Happy 24th birthday to my favourite person. 🤎</p>
+<p class="small">I made you something a little different: a collection of memories, little details, inside jokes, and all the reasons I’m grateful our paths crossed. There are stories to revisit, things to figure out, and one final file waiting for you.</p>
+<p class="small">Your mission begins with one question: <em>Will you grow with me?</em></p>
+<div class="actions"><a class="btn" href="index.html">Enter SHEGEH // 24 →</a><button class="btn secondary" id="copyBtn" type="button">Copy website note</button></div>
+</div>
+</section>
+<div class="footer"><span>MADE WITH LOVE BY AWESOME</span><span>CASE STATUS: ACTIVE</span></div>
+<div class="hint" id="hint">TAP TO UNSEAL YOUR BIRTHDAY MESSAGE</div>
+</main>
+<script>
+const openBtn=document.getElementById('openBtn'),reveal=document.getElementById('reveal'),hint=document.getElementById('hint');
+function clickTone(){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=new C(),o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.setValueAtTime(720,c.currentTime);o.frequency.exponentialRampToValueAtTime(420,c.currentTime+.07);g.gain.setValueAtTime(.045,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.09);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.1);o.onended=()=>c.close()}catch(e){}}
+openBtn.addEventListener('click',()=>{clickTone();reveal.classList.add('show');openBtn.textContent='Message unsealed ✓';openBtn.disabled=true;hint.textContent='YOUR NEXT CHAPTER IS WAITING';});
+document.getElementById('copyBtn').addEventListener('click',async()=>{clickTone();const t='Happy 24th birthday, Shegeh. I made you something a little different: a collection of memories, little details, inside jokes, and all the reasons I’m grateful our paths crossed. Enter SHEGEH // 24.';try{await navigator.clipboard.writeText(t);document.getElementById('copyBtn').textContent='Copied ✓'}catch(e){document.getElementById('copyBtn').textContent='Select and copy the message'}});
+</script></body></html>
